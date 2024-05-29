@@ -6,7 +6,8 @@ export const useTodoListStore = defineStore('todoList', {
     state: () => ({
       todoList: [],
       id: 0,
-      loading: false
+      loading: false,
+      isModalOpen: false,
   }),
 
    // actions
@@ -26,6 +27,11 @@ export const useTodoListStore = defineStore('todoList', {
         if (todo) {
             todo.completed = !todo.completed
         }
+    },
+
+    toggleModal() {
+      this.isModalOpen = !this.isModalOpen;
+      console.log("isModalOpen?", this.isModalOpen)
     },
 
    async getTodos() {

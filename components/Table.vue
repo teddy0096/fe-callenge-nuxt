@@ -5,19 +5,29 @@ import { onMounted } from "vue";
 
 import TableRow from "@/components/TableRow.vue";
 import Footer from "@/components/Footer.vue";
+import TodoModal from "@/components/TodoModal.vue";
 
 const store = useTodoListStore();
-const { todoList } = storeToRefs(store);
-const { toggleCompleted, deleteTodo } = store;
+const { todoList, isModalOpen } = storeToRefs(store);
+const { toggleCompleted, deleteTodo, toggleModal } = store;
 
 onMounted(() => {
   store.getTodos();
 });
+
+function handleModalClose() {
+  toggleModal();
+}
 </script>
 
 <template>
   <div>
+    <!-- Modal -->
     <div class="flex flex-col m-10">
+      <div class="felx justify-center">
+        <TodoModal :openModal="isModalOpen" @close="handleModalClose" />
+      </div>
+
       <div class="bg-white border border-gray-200 rounded-lg shadow-md mb-5">
         <div class="flex justify-between px-3 py-5">
           <div class="flex">
@@ -69,6 +79,7 @@ onMounted(() => {
             </div>
 
             <button
+              @click="toggleModal"
               type="button"
               class="text-white bg-custom-blue hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
