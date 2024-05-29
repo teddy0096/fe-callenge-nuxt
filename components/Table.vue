@@ -1,10 +1,18 @@
 <script setup>
 import { useTodoListStore } from "@/stores/todo";
 import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
+
+import TableRow from "@/components/TableRow.vue";
+import Footer from "@/components/Footer.vue";
 
 const store = useTodoListStore();
 const { todoList } = storeToRefs(store);
 const { toggleCompleted, deleteTodo } = store;
+
+onMounted(() => {
+  store.getTodos();
+});
 </script>
 
 <template>
@@ -62,7 +70,7 @@ const { toggleCompleted, deleteTodo } = store;
 
             <button
               type="button"
-              class="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              class="text-white bg-custom-blue hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               + Add Task
             </button>
@@ -77,7 +85,7 @@ const { toggleCompleted, deleteTodo } = store;
             <!-- Table -->
             <table class="min-w-full divide-y divide-gray-200">
               <!-- Table Header -->
-              <thead class="bg-blue-800 text-white">
+              <thead class="bg-custom-blue text-white">
                 <tr>
                   <th
                     scope="col"
@@ -96,6 +104,12 @@ const { toggleCompleted, deleteTodo } = store;
                     class="px-6 py-3 text-left text-xs font-medium text-white-200 tracking-wider"
                   >
                     Time Left
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-white-200 tracking-wider"
+                  >
+                    Completed
                   </th>
                   <th
                     scope="col"
@@ -128,67 +142,15 @@ const { toggleCompleted, deleteTodo } = store;
                 <!-- Dummy Rows -->
                 <!-- Replace these rows with your actual data -->
                 <!-- Dummy Row 1 -->
-                <tr v-for="todo in todoList" :key="todo.id">
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    {{ todo.TaskName }}
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">Description 1</td>
-                  <td class="px-6 py-4 whitespace-nowrap">1 day</td>
-                  <td class="px-6 py-4 whitespace-nowrap">2024-05-01</td>
-                  <td class="px-6 py-4 whitespace-nowrap">2024-05-07</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    2024-05-01 10:00 AM
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <!-- Delete and Edit Icons -->
-                    <span
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"
-                    >
-                      <svg
-                        class="h-8 w-8 text-neutral-500"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path stroke="none" d="M0 0h24v24H0z" />
-                        <line x1="4" y1="7" x2="20" y2="7" />
-                        <line x1="10" y1="11" x2="10" y2="17" />
-                        <line x1="14" y1="11" x2="14" y2="17" />
-                        <path
-                          d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"
-                        />
-                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                      </svg>
-                    </span>
-                    <span
-                      class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"
-                    >
-                      <svg
-                        class="h-8 w-8 text-neutral-500"
-                        <svg
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="M12 20h9" />
-                        <path
-                          d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"
-                        />
-                      </svg>
-                    </span>
-                  </td>
-                </tr>
+                <TableRow v-for="todo in todoList" :todo="todo" />
+                <!-- <TableRow
+                  v-if="todoList && todoList.length"
+                  v-for="todo in todoList"
+                  :todo="todo"
+                /> -->
+                <!-- <tr v-else>
+                  <td>No Data Available!</td>
+                </tr> -->
                 <!-- Dummy Row 2 -->
                 <!-- Add more dummy rows as needed -->
               </tbody>
@@ -299,89 +261,7 @@ const { toggleCompleted, deleteTodo } = store;
         </div>
       </div>
     </div>
-    <footer class="bg-blue-800 dark:bg-gray-900 text-white">
-      <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div class="md:flex md:justify-between">
-          <div class="mb-6 md:mb-0">
-            <a href="https://flowbite.com/" class="flex items-center">
-              <img
-                src="@/assets/logo/ecv_logo.png"
-                class="h-12 me-3"
-                alt="FlowBite Logo"
-              />
-            </a>
-          </div>
-          <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-            <div>
-              <h2
-                class="mb-6 text-sm font-semibold text-white uppercase dark:text-white"
-              >
-                Resources
-              </h2>
-              <ul class="text-white dark:text-gray-400 font-medium">
-                <li class="mb-4">
-                  <a href="https://flowbite.com/" class="hover:underline"
-                    >Flowbite</a
-                  >
-                </li>
-                <li>
-                  <a href="https://tailwindcss.com/" class="hover:underline"
-                    >Tailwind CSS</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2
-                class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white"
-              >
-                Follow us
-              </h2>
-              <ul class="text-white dark:text-gray-400 font-medium">
-                <li class="mb-4">
-                  <a
-                    href="https://github.com/themesberg/flowbite"
-                    class="hover:underline"
-                    >Github</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://discord.gg/4eeurUVvTy"
-                    class="hover:underline"
-                    >Discord</a
-                  >
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2
-                class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white"
-              >
-                Legal
-              </h2>
-              <ul class="text-white dark:text-gray-400 font-medium">
-                <li class="mb-4">
-                  <a href="#" class="hover:underline">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="#" class="hover:underline">Terms &amp; Conditions</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <!-- footer -->
+    <Footer />
   </div>
 </template>
-
-<script>
-import DropDown from "@/components/DropDown.vue";
-
-export default {
-  components: {
-    DropDown,
-  },
-};
-</script>

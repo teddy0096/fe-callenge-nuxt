@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="bg-blue-800">
+    <nav class="bg-custom-blue">
       <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-16 items-center justify-between">
           <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -57,11 +57,7 @@
             class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
           >
             <div class="hidden sm:ml-6 sm:block">
-              <a
-                href="#"
-                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md py-2 text-sm font-medium"
-                >Frontend Development Challenge #1</a
-              >
+              <h1 class="text-white">Frontend Development Challenge #1</h1>
             </div>
           </div>
           <div
