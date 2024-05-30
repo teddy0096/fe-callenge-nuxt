@@ -4,7 +4,8 @@ import { newDateFormat } from "@/utils/todoUtils";
 import { defineEmits, defineProps } from "vue";
 import { ref } from "vue";
 import { useTodoListStore } from "@/stores/todo";
-import DeleteModal from "~/components/modals/DeleteModal.vue";
+import DeleteModal from "@/components/modals/DeleteModal.vue";
+import EditModal from "@/components/modals/EditModal.vue";
 
 const store = useTodoListStore();
 
@@ -25,6 +26,7 @@ function deleteItem(itemId) {
 }
 
 const openModal = ref(false);
+const openEditModal = ref(false);
 const todoId = ref(null);
 
 function openDeleteModal(id) {
@@ -33,17 +35,38 @@ function openDeleteModal(id) {
   openModal.value = true;
 }
 
+function closeDeleteModal() {
+  openModal.value = false;
+}
+
 function confirmDeletion(todoId) {
-  console.log("confirm delete");
   deleteTodo(todoId);
+  closeDeleteModal();
+}
+
+function handleOpenEditModal(id) {
+  todoId.value = id;
+  console.log("test edit");
+  openEditModal.value = true;
+}
+
+function handleCloseEditModal() {
+  openEditModal.value = false;
 }
 </script>
 
 <template>
   <DeleteModal
-    :openDeleteModal="openModal"
+    :openModal="openModal"
     @openDeleteModal="openDeleteModal"
     @delete-confirm="confirmDeletion(todo.id)"
+    @close-confirm-modal="closeDeleteModal"
+  />
+  <EditModal
+    :openEditModal="openEditModal"
+    @openDeleteModal="openDeleteModal"
+    @delete-confirm="confirmDeletion(todo.id)"
+    @close-edit-modal="handleCloseEditModal"
   />
   <tr>
     <td class="px-6 py-4 whitespace-nowrap">
@@ -67,7 +90,7 @@ function confirmDeletion(todoId) {
       <!-- Delete and Edit Icons -->
       <!-- @click="deleteItem(todo.id)" -->
       <span
-        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800 hover:text-red-800 cursor-pointer"
+        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full hover:text-red-800 cursor-pointer"
         @click="openDeleteModal(todo.id)"
       >
         <svg
@@ -90,10 +113,11 @@ function confirmDeletion(todoId) {
         </svg>
       </span>
       <span
-        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"
+        @click="handleOpenEditModal(todo.id)"
+        class="px-2 inline-flex text-xs leading-5 font-semibold hover:text-yellow-800 rounded-full cursor-pointer"
       >
         <svg
-          class="h-6 w-6 text-neutral-500"
+          class="h-6 w-6 text-neutral-500 hover:text-yellow-500"
           width="24"
           height="24"
           viewBox="0 0 24 24"

@@ -2,28 +2,26 @@
 import { defineEmits, defineProps } from "vue";
 
 const props = defineProps({
-  openModal: {
+  openEditModal: {
     type: Boolean,
     required: true,
   },
 });
 
-const emit = defineEmits(["close-confirm-modal", "delete-confirm"]);
+const emit = defineEmits(["close-edit-modal", "edit-confirm"]);
 
 function closeModal() {
-  emit("close-confirm-modal");
-}
-
-function confirmDeletion() {
-  emit("delete-confirm");
+  console.log("test close edit modal");
+  emit("close-edit-modal");
 }
 </script>
 <template>
   <div
-    v-if="openModal"
+    v-if="openEditModal"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
   >
     <div
+      id="crud-modal"
       tabindex="-1"
       aria-hidden="true"
       class="overflow-y-auto overflow-x-hidden relative w-full md:max-w-md h-full max-h-full"
@@ -41,7 +39,7 @@ function confirmDeletion() {
             </h3> -->
 
             <h3 class="text-lg font-semibold text-white dark:text-white">
-              Delete Task
+              Edit Task
             </h3>
             <button
               @click="closeModal"
@@ -68,22 +66,15 @@ function confirmDeletion() {
             </button>
           </div>
           <!-- Modal body -->
-          <form class="p-4 md:p-5" @submit.prevent="confirmDeletion">
-            <div class="grid gap-4 mb-4 grid-cols-2">
-              <div
-                class="font-roboto text-xs font-normal leading-[20px] tracking-[0.25px] text-left"
-              >
-                <!-- Your content here -->
-                <p>Are you sure you want to delete this task?</p>
-              </div>
-            </div>
+          <form class="p-4 md:p-5" @submit.prevent="createTaskAndClear">
+            <div class="grid gap-4 mb-4 grid-cols-2"></div>
             <div class="flex justify-between">
               <button
                 type="submit"
-                class="text-white inline-flex justify-end bg-custom-red hover:red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="text-white inline-flex justify-end bg-custom-green hover:green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 style="margin-left: auto"
               >
-                Delete
+                Save
               </button>
             </div>
           </form>
