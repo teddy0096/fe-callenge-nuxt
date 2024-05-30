@@ -6,14 +6,20 @@ import { onMounted } from "vue";
 import TableRow from "@/components/TableRow.vue";
 import Footer from "@/components/Footer.vue";
 import TodoModal from "@/components/TodoModal.vue";
-import ConfirmationModal from "@/components/modals/confirmationModal.vue";
+import DeleteModal from "~/components/modals/DeleteModal.vue";
 
 import { calculateTimeLeft } from "~/utils/todoUtils";
 import dayjs from "dayjs";
 
 const store = useTodoListStore();
 const { todoList, isModalOpen, isConfirm } = storeToRefs(store);
-const { toggleCompleted, deleteTodo, toggleModal, closeConfirmModal } = store;
+const {
+  toggleCompleted,
+  deleteTodo,
+  toggleModal,
+  closeConfirmModal,
+  isDeleted,
+} = store;
 
 onMounted(() => {
   store.getTodos();
@@ -21,10 +27,6 @@ onMounted(() => {
 
 function handleModalClose() {
   toggleModal();
-}
-
-function handleConfirm() {
-  closeConfirmModal();
 }
 
 const formData = ref({
@@ -60,6 +62,10 @@ function addItemAndClear(formData) {
 
   handleModalClose();
 }
+
+function closeDeleteModal() {
+  closeConfirmModal();
+}
 </script>
 
 <template>
@@ -72,12 +78,6 @@ function addItemAndClear(formData) {
           :formData="formData"
           @close="handleModalClose"
           @create-task="addItemAndClear"
-        />
-
-        <ConfirmationModal
-          :openModal="isConfirm"
-          @close-confirm-modal="handleConfirm"
-          @is-deleted="deleteTodo"
         />
       </div>
 

@@ -2,25 +2,25 @@
 import { defineEmits, defineProps } from "vue";
 
 const props = defineProps({
-  openModal: {
+  openDeleteModal: {
     type: Boolean,
     required: true,
   },
 });
 
-const emit = defineEmits(["close-confirm-modal", "is-deleted"]);
+const emit = defineEmits(["close-confirm-modal", "delete-confirm"]);
 
 function closeModal() {
   emit("close-confirm-modal");
 }
 
 function confirmDeletion() {
-  emit("is-deleted", true);
+  emit("delete-confirm");
 }
 </script>
 <template>
   <div
-    v-if="openModal"
+    v-if="openDeleteModal"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
   >
     <div

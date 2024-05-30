@@ -2,6 +2,13 @@
 import { newDateFormat } from "@/utils/todoUtils";
 
 import { defineEmits, defineProps } from "vue";
+import { ref } from "vue";
+import { useTodoListStore } from "@/stores/todo";
+import DeleteModal from "~/components/modals/DeleteModal.vue";
+
+const store = useTodoListStore();
+
+const { deleteTodo } = store;
 
 defineProps({
   todo: {
@@ -16,9 +23,28 @@ function deleteItem(itemId) {
   console.log(itemId);
   emit("delete-item", { itemId });
 }
+
+const openModal = ref(false);
+const todoId = ref(null);
+
+function openDeleteModal(id) {
+  todoId.value = id;
+  console.log("open modal", todoId.value);
+  openModal.value = true;
+}
+
+function confirmDeletion(todoId) {
+  console.log("confirm delete");
+  deleteTodo(todoId);
+}
 </script>
 
 <template>
+  <DeleteModal
+    :openDeleteModal="openModal"
+    @openDeleteModal="openDeleteModal"
+    @delete-confirm="confirmDeletion(todo.id)"
+  />
   <tr>
     <td class="px-6 py-4 whitespace-nowrap">
       {{ todo.TaskName }}
@@ -39,9 +65,10 @@ function deleteItem(itemId) {
     </td>
     <td class="px-6 py-4 whitespace-nowrap">
       <!-- Delete and Edit Icons -->
+      <!-- @click="deleteItem(todo.id)" -->
       <span
         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800 hover:text-red-800 cursor-pointer"
-        @click="deleteItem(todo.id)"
+        @click="openDeleteModal(todo.id)"
       >
         <svg
           class="h-6 w-6 text-neutral-500 hover:text-red-500"

@@ -8,6 +8,7 @@ export const useTodoListStore = defineStore('todoList', {
       loading: false,
       isModalOpen: false,
       isConfirm: false,
+      isDeleted: false,
   }),
 
    actions: {
@@ -16,18 +17,20 @@ export const useTodoListStore = defineStore('todoList', {
         this.todoList.push({ ...item, id: this.id++, completed: false })
         console.log("add todo", this.todoList)
     },
-    deleteTodo(itemId) {
-        this.isConfirm = true
-
-        // console.log(this.isConfirm); debugger
-
-        // this.todoList = this.todoList.filter((item) => {
-        //     return item.id !== itemId
-        // })
-    },
 
     closeConfirmModal() {
-        this.isConfirm = false
+        this.isConfirm = !this.isConfirm
+    },
+
+    deleteTodo(itemId) {
+        this.todoList = this.todoList.filter((item) => {
+            return item.id !== itemId
+        })
+        console.log(this.todoList)
+    },
+
+    isDeleted() {
+        this.isDeleted = true;
     },
 
     toggleCompleted(idToFind) {
