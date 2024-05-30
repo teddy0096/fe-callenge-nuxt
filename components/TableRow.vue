@@ -1,4 +1,6 @@
 <script setup>
+import { newDateFormat } from "@/utils/todoUtils";
+
 defineProps({
   todo: {
     type: Object,
@@ -17,9 +19,15 @@ defineProps({
     <td class="px-6 py-4 whitespace-nowrap">
       {{ todo.completed }}
     </td>
-    <td class="px-6 py-4 whitespace-nowrap">{{ todo.StartDate }}</td>
-    <td class="px-6 py-4 whitespace-nowrap">{{ todo.EndDate }}</td>
-    <td class="px-6 py-4 whitespace-nowrap">{{ todo.CreatedAt }}</td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      {{ newDateFormat(todo.StartDate) }}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      {{ newDateFormat(todo.EndDate) }}
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      {{ newDateFormat(todo.CreatedAt) }}
+    </td>
     <td class="px-6 py-4 whitespace-nowrap">
       <!-- Delete and Edit Icons -->
       <span

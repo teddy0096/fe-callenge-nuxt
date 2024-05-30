@@ -14,8 +14,8 @@ export const useTodoListStore = defineStore('todoList', {
    actions: {
 
     addTodo(item) {
-        this.todoList.push({ item, id: this.id++, completed: false })
-        console.log(this.todoList)
+        this.todoList.push({ ...item, id: this.id++, completed: false })
+        console.log("add todo", this.todoList)
     },
     deleteTodo(itemId) {
         this.todoList = this.todoList.filter((item) => {

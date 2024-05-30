@@ -7,6 +7,9 @@ import TableRow from "@/components/TableRow.vue";
 import Footer from "@/components/Footer.vue";
 import TodoModal from "@/components/TodoModal.vue";
 
+import { calculateTimeLeft } from "~/utils/todoUtils";
+import dayjs from "dayjs";
+
 const store = useTodoListStore();
 const { todoList, isModalOpen } = storeToRefs(store);
 const { toggleCompleted, deleteTodo, toggleModal } = store;
@@ -18,6 +21,40 @@ onMounted(() => {
 function handleModalClose() {
   toggleModal();
 }
+
+const formData = ref({
+  TaskName: "",
+  Description: "",
+  StartDate: "",
+  EndDate: "",
+});
+
+function addItemAndClear(formData) {
+  if (
+    !formData.TaskName ||
+    !formData.Description ||
+    !formData.StartDate ||
+    !formData.EndDate
+  ) {
+    return;
+  }
+
+  const TimeLeft = calculateTimeLeft(formData.StartDate, formData.EndDate);
+  const CreatedAt = dayjs().format("MMM DD, YYYY hh:mm A");
+
+  const newtask = { ...formData, TimeLeft, CreatedAt };
+
+  store.addTodo(newtask);
+
+  console.log("todoList", todoList.value);
+
+  formData.TaskName = "";
+  formData.Description = "";
+  formData.StartDate = "";
+  formData.EndDate = "";
+
+  handleModalClose();
+}
 </script>
 
 <template>
@@ -25,7 +62,12 @@ function handleModalClose() {
     <!-- Modal -->
     <div class="flex flex-col m-10">
       <div class="felx justify-center">
-        <TodoModal :openModal="isModalOpen" @close="handleModalClose" />
+        <TodoModal
+          :openModal="isModalOpen"
+          :formData="formData"
+          @close="handleModalClose"
+          @create-task="addItemAndClear"
+        />
       </div>
 
       <div class="bg-white border border-gray-200 rounded-lg shadow-md mb-5">

@@ -6,9 +6,15 @@
           <div class="mb-6 md:mb-0">
             <a href="https://flowbite.com/" class="flex items-center">
               <img
-                src="@/assets/logo/ecv_logo.png"
+                src="@/assets/logo/ECV_logo_WHT.png"
                 class="h-12 me-3"
                 alt="FlowBite Logo"
+                style="
+                  width: 166.02px;
+                  height: 78.57px;
+                  top: 751.97px;
+                  left: 153px;
+                "
               />
             </a>
           </div>
