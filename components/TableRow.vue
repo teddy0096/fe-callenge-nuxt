@@ -1,12 +1,21 @@
 <script setup>
 import { newDateFormat } from "@/utils/todoUtils";
 
+import { defineEmits, defineProps } from "vue";
+
 defineProps({
   todo: {
     type: Object,
     required: true,
   },
 });
+
+const emit = defineEmits(["delete-item"]);
+
+function deleteItem(itemId) {
+  console.log(itemId);
+  emit("delete-item", { itemId });
+}
 </script>
 
 <template>
@@ -31,10 +40,11 @@ defineProps({
     <td class="px-6 py-4 whitespace-nowrap">
       <!-- Delete and Edit Icons -->
       <span
-        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800"
+        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-green-800 hover:text-red-800 cursor-pointer"
+        @click="deleteItem(todo.id)"
       >
         <svg
-          class="h-6 w-6 text-neutral-500"
+          class="h-6 w-6 text-neutral-500 hover:text-red-500"
           width="24"
           height="24"
           viewBox="0 0 24 24"

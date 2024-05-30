@@ -6,13 +6,14 @@ import { onMounted } from "vue";
 import TableRow from "@/components/TableRow.vue";
 import Footer from "@/components/Footer.vue";
 import TodoModal from "@/components/TodoModal.vue";
+import ConfirmationModal from "@/components/modals/confirmationModal.vue";
 
 import { calculateTimeLeft } from "~/utils/todoUtils";
 import dayjs from "dayjs";
 
 const store = useTodoListStore();
-const { todoList, isModalOpen } = storeToRefs(store);
-const { toggleCompleted, deleteTodo, toggleModal } = store;
+const { todoList, isModalOpen, isConfirm } = storeToRefs(store);
+const { toggleCompleted, deleteTodo, toggleModal, closeConfirmModal } = store;
 
 onMounted(() => {
   store.getTodos();
@@ -20,6 +21,10 @@ onMounted(() => {
 
 function handleModalClose() {
   toggleModal();
+}
+
+function handleConfirm() {
+  closeConfirmModal();
 }
 
 const formData = ref({
@@ -67,6 +72,12 @@ function addItemAndClear(formData) {
           :formData="formData"
           @close="handleModalClose"
           @create-task="addItemAndClear"
+        />
+
+        <ConfirmationModal
+          :openModal="isConfirm"
+          @close-confirm-modal="handleConfirm"
+          @is-deleted="deleteTodo"
         />
       </div>
 
@@ -195,7 +206,11 @@ function addItemAndClear(formData) {
                 <!-- Dummy Rows -->
                 <!-- Replace these rows with your actual data -->
                 <!-- Dummy Row 1 -->
-                <TableRow v-for="todo in todoList" :todo="todo" />
+                <TableRow
+                  v-for="todo in todoList"
+                  :todo="todo"
+                  @delete-item="deleteTodo(todo.id)"
+                />
                 <!-- <TableRow
                   v-if="todoList && todoList.length"
                   v-for="todo in todoList"

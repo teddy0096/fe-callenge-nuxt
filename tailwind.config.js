@@ -12,8 +12,12 @@ module.exports = {
     extend: {
       colors: {
         'custom-blue': '#1D50A2',
-        'custom-green': '#26A69A'
-      }
+        'custom-green': '#26A69A',
+        'custom-red': '#C10015',
+      },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+      },
     },
   },
   plugins: [],

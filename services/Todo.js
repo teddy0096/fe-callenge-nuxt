@@ -1,25 +1,14 @@
-import axios from 'axios'
-
-const apiClient = axios.create({
-  baseURL: 'http://localhost:3001',
-  withCredentials: false,
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
-})
-
-export default {
-//   getEvents(perPage, page) {
-//     return apiClient.get('/todo_list?_limit=' + perPage + '&_page=' + page)
-//   },
-
-  getTodoList() {
-    return apiClient.get('/todo_list')
-  },
-
-  getTodo(id) {
-    return apiClient.get('/todo_list/' + id)
-  }
-
+export async function  fetchTodoList()   {
+    try {
+        const response = await fetch('http://localhost:3001/todo_list')
+        if (!response.ok) {
+            throw new Error('Network response was not okay')
+        }
+        const data = await response.json()
+        // console.log(data)
+        return data
+    } catch (error) {
+        console.error('Error fetching todo list:', error)
+        return [];
+    }
 }

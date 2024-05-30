@@ -1,7 +1,7 @@
 <script setup>
 import { defineEmits, defineProps } from "vue";
 
-import { ref, watch } from "vue";
+import { ref, watch, toRefs } from "vue";
 // import { useTodoListStore } from "@/stores/todo";
 
 const props = defineProps({
@@ -16,11 +16,13 @@ const props = defineProps({
   },
 });
 
+const { formData } = toRefs(props);
+
 const todo = ref({
   ...props.formData,
 });
 
-watch(props, (newProps) => {
+watch(formData, (newProps) => {
   todo.value = { ...newProps.formData };
 });
 
