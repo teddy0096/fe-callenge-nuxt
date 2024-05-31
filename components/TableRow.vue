@@ -31,7 +31,6 @@ const todoId = ref(null);
 
 function openDeleteModal(id) {
   todoId.value = id;
-  console.log("open modal", todoId.value);
   openModal.value = true;
 }
 
@@ -46,7 +45,6 @@ function confirmDeletion(todoId) {
 
 function handleOpenEditModal(id) {
   todoId.value = id;
-  console.log("test edit");
   openEditModal.value = true;
 }
 
@@ -64,8 +62,8 @@ function handleCloseEditModal() {
   />
   <EditModal
     :openEditModal="openEditModal"
+    :formData="todo"
     @openDeleteModal="openDeleteModal"
-    @delete-confirm="confirmDeletion(todo.id)"
     @close-edit-modal="handleCloseEditModal"
   />
   <tr>
