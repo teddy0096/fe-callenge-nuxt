@@ -1,7 +1,7 @@
 <script setup>
 import { useTodoListStore } from "@/stores/todo";
 import { storeToRefs } from "pinia";
-import { onMounted } from "vue";
+import { onMounted, watch, ref } from "vue";
 
 import TableRow from "@/components/TableRow.vue";
 import Footer from "@/components/Footer.vue";
@@ -12,14 +12,8 @@ import { calculateTimeLeft } from "~/utils/todoUtils";
 import dayjs from "dayjs";
 
 const store = useTodoListStore();
-const { todoList, isModalOpen, isConfirm } = storeToRefs(store);
-const {
-  toggleCompleted,
-  deleteTodo,
-  toggleModal,
-  closeConfirmModal,
-  isDeleted,
-} = store;
+const { todoList, isModalOpen } = storeToRefs(store);
+const { toggleModal, closeConfirmModal } = store;
 
 onMounted(() => {
   store.getTodos();
@@ -52,8 +46,6 @@ function addItemAndClear(formData) {
   const newtask = { ...formData, TimeLeft, CreatedAt };
 
   store.addTodo(newtask);
-
-  console.log("todoList", todoList.value);
 
   formData.TaskName = "";
   formData.Description = "";
@@ -203,24 +195,7 @@ function closeDeleteModal() {
               </thead>
               <!-- Table Body -->
               <tbody class="bg-white divide-y divide-gray-200">
-                <!-- Dummy Rows -->
-                <!-- Replace these rows with your actual data -->
-                <!-- Dummy Row 1 -->
-                <TableRow
-                  v-for="todo in todoList"
-                  :todo="todo"
-                  @delete-item="deleteTodo(todo.id)"
-                />
-                <!-- <TableRow
-                  v-if="todoList && todoList.length"
-                  v-for="todo in todoList"
-                  :todo="todo"
-                /> -->
-                <!-- <tr v-else>
-                  <td>No Data Available!</td>
-                </tr> -->
-                <!-- Dummy Row 2 -->
-                <!-- Add more dummy rows as needed -->
+                <TableRow v-for="todo in todoList" :todo="todo" />
               </tbody>
             </table>
             <!-- Table Footer -->

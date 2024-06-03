@@ -1,8 +1,6 @@
 <script setup>
 import { defineEmits, defineProps } from "vue";
-import { useTodoListStore } from "@/stores/todo";
-
-import { ref, toRefs } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
   openEditModal: {
@@ -16,21 +14,25 @@ const props = defineProps({
   },
 });
 
-const store = useTodoListStore();
+const emit = defineEmits(["close-edit-modal", "update-task"]);
 
-// const { formData } = toRefs(props);
 const todo = ref({
   ...props.formData,
 });
 
-const emit = defineEmits(["close-edit-modal", "edit-confirm"]);
+watch(
+  () => props.formData,
+  (newVal) => {
+    todo.value = { ...newVal };
+  }
+);
 
 function closeModal() {
   emit("close-edit-modal");
 }
 
 function updateTaskAndClear() {
-  console.log("update");
+  emit("update-task", { ...todo.value });
   closeModal();
 }
 </script>

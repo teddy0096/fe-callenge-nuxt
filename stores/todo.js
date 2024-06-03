@@ -18,16 +18,27 @@ export const useTodoListStore = defineStore('todoList', {
         console.log("add todo", this.todoList)
     },
 
-    closeConfirmModal() {
-        this.isConfirm = !this.isConfirm
-    },
-
+    updateTodo(updatedTask) {
+        const index = this.todoList.findIndex(task => task.id === updatedTask.id)
+        if (index !== -1) {
+          console.log('this is the updated task', updatedTask)
+          // Update the task at the found index
+          this.todoList[index] = updatedTask
+        }
+      },
+      
+ 
     deleteTodo(itemId) {
         this.todoList = this.todoList.filter((item) => {
             return item.id !== itemId
         })
         console.log(this.todoList)
     },
+
+    closeConfirmModal() {
+        this.isConfirm = !this.isConfirm
+    },
+
 
     isDeleted() {
         this.isDeleted = true;
@@ -46,6 +57,7 @@ export const useTodoListStore = defineStore('todoList', {
     },
 
    async getTodos() {
+    console.log('test this')
     this.todoList = await fetchTodoList()
   }
     

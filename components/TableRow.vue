@@ -1,24 +1,24 @@
 <script setup>
 import { newDateFormat } from "@/utils/todoUtils";
 
-import { defineEmits, defineProps } from "vue";
-import { ref } from "vue";
+import { defineEmits, defineProps, ref, watch } from "vue";
 import { useTodoListStore } from "@/stores/todo";
 import DeleteModal from "@/components/modals/DeleteModal.vue";
 import EditModal from "@/components/modals/EditModal.vue";
 
-const store = useTodoListStore();
-
-const { deleteTodo } = store;
-
-defineProps({
+const props = defineProps({
   todo: {
     type: Object,
     required: true,
   },
 });
 
-const emit = defineEmits(["delete-item"]);
+const store = useTodoListStore();
+const { todoList } = storeToRefs(store);
+
+const { deleteTodo, updateTodo } = store;
+
+const emit = defineEmits(["delete-item", "update-task"]);
 
 function deleteItem(itemId) {
   console.log(itemId);
@@ -51,6 +51,11 @@ function handleOpenEditModal(id) {
 function handleCloseEditModal() {
   openEditModal.value = false;
 }
+
+function handleUpdateTask(updatedTask) {
+  store.updateTodo(updatedTask);
+  updateTodo(updatedTask);
+}
 </script>
 
 <template>
@@ -63,8 +68,8 @@ function handleCloseEditModal() {
   <EditModal
     :openEditModal="openEditModal"
     :formData="todo"
-    @openDeleteModal="openDeleteModal"
     @close-edit-modal="handleCloseEditModal"
+    @update-task="handleUpdateTask"
   />
   <tr>
     <td class="px-6 py-4 whitespace-nowrap">
@@ -86,7 +91,7 @@ function handleCloseEditModal() {
     </td>
     <td class="px-6 py-4 whitespace-nowrap">
       <!-- Delete and Edit Icons -->
-      <!-- @click="deleteItem(todo.id)" -->
+      <!-- @click="deleteItem(localTodo.id)" -->
       <span
         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full hover:text-red-800 cursor-pointer"
         @click="openDeleteModal(todo.id)"
