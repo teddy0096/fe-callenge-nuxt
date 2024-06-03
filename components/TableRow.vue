@@ -14,16 +14,10 @@ const props = defineProps({
 });
 
 const store = useTodoListStore();
-const { todoList } = storeToRefs(store);
 
 const { deleteTodo, updateTodo } = store;
 
 const emit = defineEmits(["delete-item", "update-task"]);
-
-function deleteItem(itemId) {
-  console.log(itemId);
-  emit("delete-item", { itemId });
-}
 
 const openModal = ref(false);
 const openEditModal = ref(false);

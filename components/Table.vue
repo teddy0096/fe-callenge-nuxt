@@ -1,19 +1,19 @@
 <script setup>
 import { useTodoListStore } from "@/stores/todo";
 import { storeToRefs } from "pinia";
-import { onMounted, watch, ref } from "vue";
+import { onMounted, ref } from "vue";
 
 import TableRow from "@/components/TableRow.vue";
 import Footer from "@/components/Footer.vue";
 import TodoModal from "@/components/TodoModal.vue";
-import DeleteModal from "~/components/modals/DeleteModal.vue";
 
 import { calculateTimeLeft } from "~/utils/todoUtils";
 import dayjs from "dayjs";
+import DropDown from "@/components/DropDown.vue";
 
 const store = useTodoListStore();
-const { todoList, isModalOpen } = storeToRefs(store);
-const { toggleModal, closeConfirmModal } = store;
+const { todoList, isModalOpen, openDropDown } = storeToRefs(store);
+const { toggleModal, toggleDropDown } = store;
 
 onMounted(() => {
   store.getTodos();
@@ -54,10 +54,6 @@ function addItemAndClear(formData) {
 
   handleModalClose();
 }
-
-function closeDeleteModal() {
-  closeConfirmModal();
-}
 </script>
 
 <template>
@@ -81,47 +77,10 @@ function closeDeleteModal() {
 
           <div class="flex">
             <!-- dropdown component -->
-            <DropDown />
-
-            <!-- Dropdown Menu -->
-            <div
-              class="dropdown-content absolute hidden bg-white rounded-md shadow-lg w-40 z-10 mt-2"
-            >
-              <a
-                href="#"
-                class="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                >Option 1</a
-              >
-              <a
-                href="#"
-                class="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                >Option 2</a
-              >
-              <a
-                href="#"
-                class="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                >Option 3</a
-              >
-            </div>
-
-            <!-- Dropdown menu -->
-            <div
-              id="dropdown"
-              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >Dashboard</a
-                  >
-                </li>
-              </ul>
-            </div>
+            <DropDown
+              @click-dropdown="toggleDropDown"
+              :dropDown="openDropDown"
+            />
 
             <button
               @click="toggleModal"

@@ -9,6 +9,7 @@ export const useTodoListStore = defineStore('todoList', {
       isModalOpen: false,
       isConfirm: false,
       isDeleted: false,
+      openDropDown: false,
   }),
 
    actions: {
@@ -21,7 +22,6 @@ export const useTodoListStore = defineStore('todoList', {
     updateTodo(updatedTask) {
         const index = this.todoList.findIndex(task => task.id === updatedTask.id)
         if (index !== -1) {
-          console.log('this is the updated task', updatedTask)
           // Update the task at the found index
           this.todoList[index] = updatedTask
         }
@@ -56,8 +56,11 @@ export const useTodoListStore = defineStore('todoList', {
       console.log("isModalOpen?", this.isModalOpen)
     },
 
+    toggleDropDown() {
+      this.openDropDown = !this.openDropDown
+    },
+
    async getTodos() {
-    console.log('test this')
     this.todoList = await fetchTodoList()
   }
     

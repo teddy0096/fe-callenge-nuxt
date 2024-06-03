@@ -1,3 +1,22 @@
+<script setup>
+import { defineProps, defineEmits } from "vue";
+
+const props = defineProps({
+  dropDown: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["click-dropdown"]);
+
+function toggleDropdown() {
+  console.log("click");
+  emit("click-dropdown");
+  event.stopPropagation();
+}
+</script>
+
 <template>
   <div>
     <button
@@ -24,28 +43,49 @@
         />
       </svg>
     </button>
-    <div v-if="isOpen" class="dropdown-menu">
-      <a href="#" class="dropdown-item">Option 1</a>
-      <a href="#" class="dropdown-item">Option 2</a>
-      <a href="#" class="dropdown-item">Option 3</a>
+
+    <!-- Dropdown menu -->
+    <div
+      v-if="dropDown"
+      id="dropdown"
+      class="z-1 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 float"
+    >
+      <ul
+        class="py-2 text-sm text-gray-700 dark:text-gray-200"
+        aria-labelledby="dropdownDefaultButton"
+      >
+        <li>
+          <a
+            href="#"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            >Dashboard</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            >Settings</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            >Earnings</a
+          >
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            >Sign out</a
+          >
+        </li>
+      </ul>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-  methods: {
-    toggleDropdown() {
-      this.isOpen = !this.isOpen;
-    },
-  },
-};
-</script>
 
 <style>
 /* Add your styles for the dropdown button and menu here */
