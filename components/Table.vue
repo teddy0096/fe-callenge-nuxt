@@ -1,61 +1,3 @@
-<script setup>
-import { useTodoListStore } from "@/stores/todo";
-import { storeToRefs } from "pinia";
-import { onMounted, ref } from "vue";
-
-import TableRow from "@/components/TableRow.vue";
-import Footer from "@/components/Footer.vue";
-import TodoModal from "@/components/TodoModal.vue";
-
-import { calculateTimeLeft } from "~/utils/todoUtils";
-import dayjs from "dayjs";
-import DropDown from "@/components/DropDown.vue";
-
-const store = useTodoListStore();
-const { todoList, isModalOpen, openDropDown } = storeToRefs(store);
-const { toggleModal, toggleDropDown } = store;
-
-onMounted(() => {
-  store.getTodos();
-});
-
-function handleModalClose() {
-  toggleModal();
-}
-
-const formData = ref({
-  TaskName: "",
-  Description: "",
-  StartDate: "",
-  EndDate: "",
-});
-
-function addItemAndClear(formData) {
-  if (
-    !formData.TaskName ||
-    !formData.Description ||
-    !formData.StartDate ||
-    !formData.EndDate
-  ) {
-    return;
-  }
-
-  const TimeLeft = calculateTimeLeft(formData.StartDate, formData.EndDate);
-  const CreatedAt = dayjs().format("MMM DD, YYYY hh:mm A");
-
-  const newtask = { ...formData, TimeLeft, CreatedAt };
-
-  store.addTodo(newtask);
-
-  formData.TaskName = "";
-  formData.Description = "";
-  formData.StartDate = "";
-  formData.EndDate = "";
-
-  handleModalClose();
-}
-</script>
-
 <template>
   <div>
     <!-- Modal -->
@@ -69,9 +11,11 @@ function addItemAndClear(formData) {
         />
       </div>
 
-      <div class="bg-white border border-gray-200 rounded-lg shadow-md mb-5">
+      <div
+        class="bg-white border border-gray-200 rounded-lg shadow-md mb-5 subheader-layout"
+      >
         <div class="flex justify-between px-3 py-5">
-          <div class="flex">
+          <div class="flex subheader-typography title-layout">
             <h1 class="text-xl font-semibold">To-Do List</h1>
           </div>
 
@@ -85,13 +29,14 @@ function addItemAndClear(formData) {
             <button
               @click="toggleModal"
               type="button"
-              class="text-white bg-custom-blue hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              class="text-white add-btn bg-custom-blue hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               + Add Task
             </button>
           </div>
         </div>
       </div>
+
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
@@ -202,62 +147,7 @@ function addItemAndClear(formData) {
                 </a>
               </div>
               <!-- Rows Per Page Dropdown -->
-              <div
-                class="hidden p-5 sm:flex-1 sm:flex sm:items-center sm:justify-end"
-              >
-                <div>
-                  <p class="text-sm text-gray-700">Rows per page:</p>
-                </div>
-                <div class="mt-2 sm:mt-0 sm:ml-6">
-                  <select
-                    class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                  >
-                    <option selected>10</option>
-                    <option>25</option>
-                    <option>50</option>
-                    <option>100</option>
-                  </select>
-                </div>
-                <div>
-                  <p class="text-sm text-gray-700 px-5">rows number here</p>
-                </div>
-                <div class="flex justify-between">
-                  <a href="#" class="px-5">
-                    <svg
-                      class="w-4 h-4 text-gray-800 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 8 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"
-                      ></path>
-                    </svg>
-                  </a>
-                  <a href="#" class="px-5">
-                    <svg
-                      class="w-4 h-4 text-gray-400 dark:text-white"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 8 14"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1"
-                      ></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
+              <Pagination />
             </div>
           </div>
         </div>
@@ -267,3 +157,100 @@ function addItemAndClear(formData) {
     <Footer />
   </div>
 </template>
+
+<script setup>
+import { useTodoListStore } from "~/stores/useTodoListStore";
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
+
+import TableRow from "@/components/TableRow.vue";
+import Footer from "@/components/Footer.vue";
+import TodoModal from "@/components/TodoModal.vue";
+import DropDown from "@/components/DropDown.vue";
+import Pagination from "@/components/Pagination.vue";
+
+import { calculateTimeLeft } from "~/utils/todoUtils";
+import dayjs from "dayjs";
+
+const store = useTodoListStore();
+const {
+  todoList,
+  isModalOpen,
+  openDropDown,
+  totalItems,
+  startIndex,
+  endIndex,
+} = storeToRefs(store);
+
+const { toggleModal, toggleDropDown } = store;
+
+function handleModalClose() {
+  toggleModal();
+}
+
+const formData = ref({
+  TaskName: "",
+  Description: "",
+  StartDate: "",
+  EndDate: "",
+});
+
+store.getTodos();
+
+function addItemAndClear(formData) {
+  if (
+    !formData.TaskName ||
+    !formData.Description ||
+    !formData.StartDate ||
+    !formData.EndDate
+  ) {
+    return;
+  }
+
+  const TimeLeft = calculateTimeLeft(formData.StartDate, formData.EndDate);
+  const CreatedAt = dayjs().format("MMM DD, YYYY hh:mm A");
+
+  const newtask = { ...formData, TimeLeft, CreatedAt };
+
+  store.addTodo(newtask);
+
+  formData.TaskName = "";
+  formData.Description = "";
+  formData.StartDate = "";
+  formData.EndDate = "";
+
+  handleModalClose();
+}
+</script>
+<style>
+.subheader-typography {
+  font-family: "Roboto", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 25px;
+  text-align: left;
+}
+
+.subheader-layout {
+  width: 100%;
+  height: 81px;
+  top: 90px;
+  left: 25px;
+}
+
+.title-layout {
+  width: 141px;
+  height: 25px;
+  padding-top: 8px;
+  padding-left: 8px;
+}
+
+.add-btn {
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-align: center;
+}
+</style>

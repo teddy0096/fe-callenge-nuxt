@@ -69,19 +69,21 @@ function confirmDeletion() {
           </div>
           <!-- Modal body -->
           <form class="p-4 md:p-5" @submit.prevent="confirmDeletion">
-            <div class="grid gap-4 mb-4 grid-cols-2">
-              <div
-                class="font-roboto text-xs font-normal leading-[20px] tracking-[0.25px] text-left"
-              >
-                <!-- Your content here -->
-                <p>Are you sure you want to delete this task?</p>
-              </div>
+            <div class="delete-content">
+              <!-- Your content here -->
+              <p>Are you sure you want to delete this task?</p>
             </div>
-            <div class="flex justify-between">
+            <div class="flex justify-end">
+              <button
+                @click="closeModal"
+                class="text-white cancel-btn focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 focus:outline-none dark:focus:ring-blue-800"
+              >
+                Cancel
+              </button>
+
               <button
                 type="submit"
-                class="text-white inline-flex justify-end bg-custom-red hover:red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                style="margin-left: auto"
+                class="text-white delete-btn focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 focus:outline-none dark:focus:ring-blue-800"
               >
                 Delete
               </button>
@@ -92,3 +94,24 @@ function confirmDeletion() {
     </div>
   </div>
 </template>
+<style>
+.cancel-btn {
+  color: gray;
+  text-decoration: underline;
+}
+.delete-btn {
+  background-color: #c10015;
+}
+
+.delete-content {
+  font-family: "Roboto", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+  margin-bottom: 20px;
+}
+</style>

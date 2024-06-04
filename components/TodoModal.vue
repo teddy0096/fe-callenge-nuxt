@@ -165,11 +165,18 @@ function createTaskAndClear() {
                 />
               </div>
             </div>
-            <div class="flex justify-between">
+            <div class="flex justify-end">
+              <!-- dropdown component -->
+              <button
+                @click="closeModal"
+                class="text-white cancel-btn focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 focus:outline-none dark:focus:ring-blue-800"
+              >
+                Cancel
+              </button>
+
               <button
                 type="submit"
-                class="text-white inline-flex justify-end bg-custom-green hover:green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                style="margin-left: auto"
+                class="text-white create-btn focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 py-2 me-2 mb-2 dark:bg-blue-600 focus:outline-none dark:focus:ring-blue-800"
               >
                 Create
               </button>
@@ -180,3 +187,13 @@ function createTaskAndClear() {
     </div>
   </div>
 </template>
+<style>
+.cancel-btn {
+  color: gray;
+  text-decoration: underline;
+}
+
+.create-btn {
+  background-color: #26a69a;
+}
+</style>

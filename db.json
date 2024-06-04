@@ -49,6 +49,79 @@
         "StartDate": "2024-05-29",
         "EndDate": "2024-05-30",
         "CreatedAt": "2024-05-28 02:00 PM"
+      },
+      {
+        "id": 6,
+        "TaskName": "Meeting with Manager",
+        "Description": "Discuss performance and goals",
+        "TimeLeft": "1 week",
+        "completed": false,
+        "StartDate": "2024-06-03",
+        "EndDate": "2024-06-03",
+        "CreatedAt": "2024-05-30 09:00 AM"
+      },
+      {
+        "id": 7,
+        "TaskName": "Write Monthly Report",
+        "Description": "Compile data and write report",
+        "TimeLeft": "2 days",
+        "completed": false,
+        "StartDate": "2024-06-03",
+        "EndDate": "2024-06-04",
+        "CreatedAt": "2024-06-01 01:00 PM"
+      },
+      {
+        "id": 8,
+        "TaskName": "Presentation Preparation",
+        "Description": "Prepare slides for upcoming presentation",
+        "TimeLeft": "3 days",
+        "completed": false,
+        "StartDate": "2024-06-05",
+        "EndDate": "2024-06-05",
+        "CreatedAt": "2024-06-01 04:00 PM"
+      },
+      {
+        "id": 9,
+        "TaskName": "Call with Team Lead",
+        "Description": "Discuss project status and blockers",
+        "TimeLeft": "1 day",
+        "completed": false,
+        "StartDate": "2024-06-06",
+        "EndDate": "2024-06-06",
+        "CreatedAt": "2024-06-02 11:00 AM"
+      },
+      {
+        "id": 10,
+        "TaskName": "Research New Technology",
+        "Description": "Explore options for improving workflow",
+        "TimeLeft": "2 weeks",
+        "completed": false,
+        "StartDate": "2024-06-01",
+        "EndDate": "2024-06-15",
+        "CreatedAt": "2024-06-03 02:00 PM"
+      }
+    ],
+
+    "dropdown_list": [
+      {
+        "id": 1,
+        "value": "a-z",
+        "label": "Task Name: A - Z"
+      },
+      {
+        "id": 2,
+        "value": "z-a",
+        "label": "Task Name: Z - A"
+      },
+      {
+        "id": 3,
+        "value": "date_asc",
+        "label": "Date Created: ASC"
+      },
+      {
+        "id": 4,
+        "value": "date_desc",
+        "label": "Date Created: DESC"
       }
     ]
   }

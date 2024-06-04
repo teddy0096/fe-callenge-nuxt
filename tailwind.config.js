@@ -18,6 +18,19 @@ module.exports = {
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
       },
+      spacing: {
+        '1440px': '1440px',
+        '66px': '66px',
+        '431px': '431px',
+        '16px': '16px',
+        '25px': '25px',
+      },
+      opacity: {
+        '0': '0',
+      },
+      borderRadius: {
+        'dropdown-tl': '5.16px',
+      },
     },
   },
   plugins: [],
