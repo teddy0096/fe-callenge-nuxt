@@ -4,32 +4,47 @@ import { storeToRefs } from "pinia";
 import { defineEmits, ref, computed } from "vue";
 
 const store = useTodoListStore();
-// const { deleteTodo, setCurrentPage, setItemsPerPage } = store;
-const { itemsPerPage, totalRows, currentPage } = storeToRefs(store);
+const { itemsPerPage, totalRows, currentPage, todoList, start, end } =
+  storeToRefs(store);
 
 const emit = defineEmits(["change-row-per-page"]);
 
-const defualtItemPerPage = 5;
-itemsPerPage.value = defualtItemPerPage;
-
 // calculate startindex and endindex
-// const startIndex = computed(() => {
-//   return currentPage.value * itemsPerPage.value;
-// });
+const startIndex = computed(() => {
+  return (currentPage.value - 1) * itemsPerPage.value;
+});
 
-// const endIndex = computed(() => {
-//   const end = currentPage.value * itemsPerPage.value;
-//   return Math.min(end, totalRows.value);
-// });
+const endIndex = computed(() => {
+  return Math.min(startIndex.value + itemsPerPage.value, totalRows.value);
+});
 
-// const totalItems = computed(() => {
-//   return totalRows.value;
-// });
+console.log("item per page: ", itemsPerPage.value);
+console.log("start", start.value);
+console.log("end", end.value);
+// const test = (todoList.value = todoList.value.slice(start.value, end.value));
+const test = store.getTodos();
+
+console.log("init val", test);
+console.log("init val", todoList.value);
+
+const paginateTodoList = () => {
+  itemsPerPage.value = itemsPerPage.value;
+  console.log("start", startIndex.value);
+  console.log("end", endIndex.value);
+  todoList.value = todoList.value.slice(startIndex.value, endIndex.value);
+  console.log("splice value", todoList.value);
+};
 
 function updateItemsPerPage() {
-  store.setCurrentPage();
-  console.log("test", itemsPerPage.value);
+  // todoList.value = "";
+  console.log("new items value", itemsPerPage.value);
+  console.log("old value", todoList.value);
+  paginateTodoList();
 }
+
+const totalItems = computed(() => {
+  return totalRows.value;
+});
 </script>
 
 <template>

@@ -15,7 +15,9 @@ export const useTodoListStore = defineStore('todoList', {
 
     // pagination
     currentPage: 1,
-    itemsPerPage: 3,
+    start: 0,
+    end: 5,
+    itemsPerPage: 5,
   }),
 
   actions: {
@@ -65,8 +67,7 @@ export const useTodoListStore = defineStore('todoList', {
     },
 
     sortByTaskNameAZ() {
-      console.log('test')
-      // this.todoList.sort((a, b) => a.TaskName.localeCompare(b.TaskName));
+      this.todoList.sort((a, b) => a.TaskName.localeCompare(b.TaskName));
     },
 
     sortByTaskNameZA() {
@@ -90,8 +91,8 @@ export const useTodoListStore = defineStore('todoList', {
       console.log("test lenght", this.todoList.length);
     },
 
-    setCurrentPage() {
-      console.log('testasdasdas')
+    setCurrentPage(itemsPerPage) {
+      this.itemsPerPage = itemsPerPage
     }
   },
 
@@ -99,5 +100,12 @@ export const useTodoListStore = defineStore('todoList', {
     totalRows() {
       return this.todoList.length;
     },
+
+    paginatedTodoList() {
+      console.log('test')
+      // const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      // const endIndex = Math.min(startIndex + this.itemsPerPage, this.totalRows);
+      // return this.todoList.slice(startIndex, endIndex);
+    }
   }
 });
