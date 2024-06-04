@@ -1,5 +1,5 @@
 <script setup>
-import { useTodoListStore } from "~/stores/todo";
+import { useTodoListStore } from "@/stores/todo";
 import { storeToRefs } from "pinia";
 import { defineEmits, ref, computed } from "vue";
 

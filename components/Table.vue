@@ -159,7 +159,7 @@
 </template>
 
 <script setup>
-import { useTodoListStore } from "~/stores/useTodoListStore";
+import { useTodoListStore } from "@/stores/todo";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 

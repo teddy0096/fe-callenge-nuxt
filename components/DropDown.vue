@@ -2,7 +2,7 @@
 import { defineProps, defineEmits, ref } from "vue";
 import { storeToRefs } from "pinia";
 
-import { useTodoListStore } from "~/stores/useTodoListStore";
+import { useTodoListStore } from "@/stores/todo";
 const store = useTodoListStore();
 const { dropDownItem } = storeToRefs(store);
 
