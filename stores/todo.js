@@ -26,9 +26,11 @@ export const useTodoListStore = defineStore('todoList', {
   actions: {
 
     setCurrentPage(page) {
+      console.log('set current page store: ', page)
       this.currentPage = page
     },
     setTotalPages(total) {
+      console.log('set total page store: ', total)
       this.totalPages = total
     },
     addTodo(item) {

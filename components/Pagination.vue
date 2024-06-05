@@ -18,8 +18,7 @@
     </div>
     <div>
       <p class="text-sm text-black px-5">
-        <!-- {{ startIndex + 1 }}-{{ endIndex }} of {{ totalItems }} -->
-        {{ itemsPerPage }}
+        {{ startIndex + 1 }}-{{ endIndex }} of {{ totalItems }}
       </p>
       <!-- <p class="text-sm text-black px-5">rows per page: 5 1-5 of 10 <></p> -->
     </div>
@@ -94,13 +93,13 @@ const nextPage = () => {
 };
 
 // calculate startindex and endindex
-// const startIndex = computed(() => {
-//   return (currentPage.value - 1) * itemsPerPage.value;
-// });
+const startIndex = computed(() => {
+  return (currentPage.value - 1) * itemsPerPage.value;
+});
 
-// const endIndex = computed(() => {
-//   return Math.min(startIndex.value + itemsPerPage.value, totalRows.value);
-// });
+const endIndex = computed(() => {
+  return Math.min(startIndex.value + itemsPerPage.value, totalRows.value);
+});
 
 // const paginateTodoList = () => {
 //   itemsPerPage.value = itemsPerPage.value;
@@ -112,7 +111,7 @@ function updateItemsPerPage() {
   // paginateTodoList();
 }
 
-// const totalItems = computed(() => {
-//   return totalRows.value;
-// });
+const totalItems = computed(() => {
+  return totalRows.value;
+});
 </script>
