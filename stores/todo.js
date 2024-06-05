@@ -14,13 +14,23 @@ export const useTodoListStore = defineStore('todoList', {
     dropDownItem: [],
 
     // pagination
-    currentPage: 1,
     start: 0,
     end: 5,
     itemsPerPage: 5,
+    
+    // for tesing
+    currentPage: 1,
+    totalPages:0,
   }),
 
   actions: {
+
+    setCurrentPage(page) {
+      this.currentPage = page
+    },
+    setTotalPages(total) {
+      this.totalPages = total
+    },
     addTodo(item) {
       this.todoList.push({ ...item, id: this.id++, completed: false });
       console.log("add todo", this.todoList);
@@ -87,7 +97,7 @@ export const useTodoListStore = defineStore('todoList', {
     },
 
     async getTodos() {
-      this.todoList = await fetchTodoList();
+      this.todoList = await fetchTodoList(this.itemsPerPage, this.currentPage);
       console.log("test lenght", this.todoList.length);
     },
 
@@ -100,12 +110,5 @@ export const useTodoListStore = defineStore('todoList', {
     totalRows() {
       return this.todoList.length;
     },
-
-    paginatedTodoList() {
-      console.log('test')
-      // const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      // const endIndex = Math.min(startIndex + this.itemsPerPage, this.totalRows);
-      // return this.todoList.slice(startIndex, endIndex);
-    }
   }
 });

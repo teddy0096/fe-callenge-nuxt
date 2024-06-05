@@ -1,52 +1,3 @@
-<script setup>
-import { useTodoListStore } from "@/stores/todo";
-import { storeToRefs } from "pinia";
-import { defineEmits, ref, computed } from "vue";
-
-const store = useTodoListStore();
-const { itemsPerPage, totalRows, currentPage, todoList, start, end } =
-  storeToRefs(store);
-
-const emit = defineEmits(["change-row-per-page"]);
-
-// calculate startindex and endindex
-const startIndex = computed(() => {
-  return (currentPage.value - 1) * itemsPerPage.value;
-});
-
-const endIndex = computed(() => {
-  return Math.min(startIndex.value + itemsPerPage.value, totalRows.value);
-});
-
-console.log("item per page: ", itemsPerPage.value);
-console.log("start", start.value);
-console.log("end", end.value);
-// const test = (todoList.value = todoList.value.slice(start.value, end.value));
-const test = store.getTodos();
-
-console.log("init val", test);
-console.log("init val", todoList.value);
-
-const paginateTodoList = () => {
-  itemsPerPage.value = itemsPerPage.value;
-  console.log("start", startIndex.value);
-  console.log("end", endIndex.value);
-  todoList.value = todoList.value.slice(startIndex.value, endIndex.value);
-  console.log("splice value", todoList.value);
-};
-
-function updateItemsPerPage() {
-  // todoList.value = "";
-  console.log("new items value", itemsPerPage.value);
-  console.log("old value", todoList.value);
-  paginateTodoList();
-}
-
-const totalItems = computed(() => {
-  return totalRows.value;
-});
-</script>
-
 <template>
   <div class="hidden p-5 sm:flex-1 sm:flex sm:items-center sm:justify-end">
     <div>
@@ -73,7 +24,7 @@ const totalItems = computed(() => {
       <!-- <p class="text-sm text-black px-5">rows per page: 5 1-5 of 10 <></p> -->
     </div>
     <div class="flex justify-between">
-      <a href="#" class="px-5">
+      <a href="#" class="px-5" @click="prevPage">
         <svg
           class="w-4 h-4 text-gray-800 dark:text-white"
           aria-hidden="true"
@@ -90,7 +41,7 @@ const totalItems = computed(() => {
           ></path>
         </svg>
       </a>
-      <a href="#" class="px-5">
+      <a href="#" class="px-5" @click="nextPage">
         <svg
           class="w-4 h-4 text-gray-400 dark:text-white"
           aria-hidden="true"
@@ -110,3 +61,58 @@ const totalItems = computed(() => {
     </div>
   </div>
 </template>
+
+<script setup>
+import { useTodoListStore } from "@/stores/todo";
+import { storeToRefs } from "pinia";
+import { defineEmits, ref, computed } from "vue";
+
+const store = useTodoListStore();
+const {
+  currentPage,
+  totalPages,
+  itemsPerPage,
+  totalRows,
+  todoList,
+  start,
+  end,
+} = storeToRefs(store);
+
+const emit = defineEmits(["change-row-per-page"]);
+
+// const currentPage = computed(() => store.currentPage);
+// const totalPages = computed(() => store.totalPages);
+
+const prevPage = () => {
+  store.setCurrentPage(currentPage.value - 1);
+  console.log("testing prev page: ", currentPage.value);
+};
+
+const nextPage = () => {
+  store.setTotalPages(totalPages.value + 1);
+  console.log("testing next page: ", totalPages.value);
+};
+
+// calculate startindex and endindex
+// const startIndex = computed(() => {
+//   return (currentPage.value - 1) * itemsPerPage.value;
+// });
+
+// const endIndex = computed(() => {
+//   return Math.min(startIndex.value + itemsPerPage.value, totalRows.value);
+// });
+
+// const paginateTodoList = () => {
+//   itemsPerPage.value = itemsPerPage.value;
+//   todoList.value = todoList.value.slice(startIndex.value, endIndex.value);
+// };
+
+function updateItemsPerPage() {
+  store.getTodos();
+  // paginateTodoList();
+}
+
+// const totalItems = computed(() => {
+//   return totalRows.value;
+// });
+</script>

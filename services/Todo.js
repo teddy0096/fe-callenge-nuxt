@@ -1,6 +1,6 @@
-export async function  fetchTodoList()   {
+export async function  fetchTodoList(perPage, page)   {
     try {
-        const response = await fetch('http://localhost:3001/todo_list')
+        const response = await fetch('http://localhost:3001/todo_list?_limit=' + perPage + '&_page=' + page)
         if (!response.ok) {
             throw new Error('Network response was not okay')
         }
